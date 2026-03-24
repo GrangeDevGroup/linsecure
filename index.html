@@ -3,464 +3,389 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LinSecure — Privacy & Security Toolkit</title>
+  <title>LinSecure — Linux Privacy & Security Hardware Manipulation Toolkit</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg:        #0c0c0c;
-      --bg1:       #111111;
-      --bg2:       #161616;
-      --bg3:       #1e1e1e;
-      --border:    #2a2a2a;
-      --border2:   #383838;
-      --green:     #4af626;
-      --green-d:   #2d9e12;
-      --green-dim: #142e0a;
-      --amber:     #e8b71d;
-      --red:       #cc3333;
-      --cyan:      #4ec9b0;
-      --white:     #d4d4d4;
-      --gray:      #6e6e6e;
-      --dgray:     #3a3a3a;
-      --mono: 'IBM Plex Mono', monospace;
-      --ui:   'IBM Plex Sans', sans-serif;
+      --bg:        #ffffffcc;
+      --bg1:       #f8f9fa;
+      --bg2:       #e9ecef;
+      --border:    #ced4da;
+      --primary:   #0066cc;
+      --primary-d: #0052a3;
+      --text:      #212529;
+      --text-muted:#6c757d;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
-      color: var(--white);
-      font-family: var(--mono);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
-      pointer-events: none;
-      z-index: 999;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      line-height: 1.6;
     }
 
-    /* ── HEADER ── */
     header {
-      background: var(--bg1);
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
-      height: 52px;
+      height: 64px;
       padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 1000;
     }
     .logo {
-      font-family: var(--mono);
-      font-weight: 600;
-      font-size: .95rem;
-      color: var(--green);
-      display: flex; align-items: center; gap: .35rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      text-decoration: none;
     }
-    .logo-pre { color: var(--gray); font-weight: 400; }
-    .nav { display: flex; align-items: center; gap: 1.4rem; font-size: .72rem; }
-    .nav a { color: var(--gray); text-decoration: none; transition: color .15s; }
-    .nav a:hover { color: var(--white); }
-    .pill {
-      display: flex; align-items: center; gap: .4rem;
-      font-size: .62rem; font-family: var(--mono);
-      color: var(--green);
-      background: var(--green-dim);
-      border: 1px solid var(--green-d);
-      padding: .2rem .6rem;
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: 0.9rem;
     }
-    .dot { width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.2s step-end infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav a:hover { color: var(--primary); }
+    .badge {
+      font-size: 0.75rem;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
 
-    /* ── HERO ── */
     .hero {
-      max-width: 860px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 5rem 2rem 3.5rem;
-      animation: up .6s ease both;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
     }
-    @keyframes up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
-    .prompt-line {
-      font-size: .72rem; color: var(--gray);
-      margin-bottom: 1.6rem;
-      display: flex; align-items: center; gap: .4rem;
-    }
-    .prompt-line .ps { color: var(--green); }
     .hero h1 {
-      font-family: var(--mono);
-      font-size: clamp(1.9rem, 5vw, 3.5rem);
-      font-weight: 600;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -.02em;
-      color: var(--white);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .hl  { color: var(--green); }
-    .dim { color: var(--gray); }
+    .hero .highlight { color: var(--primary); }
     .hero p {
-      font-family: var(--ui);
-      font-size: .9rem; color: var(--gray);
-      line-height: 1.8; max-width: 520px;
-      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
     }
-    .btn-row { display: flex; gap: .75rem; flex-wrap: wrap; }
     .btn {
-      font-family: var(--mono); font-size: .75rem; font-weight: 500;
-      padding: .6rem 1.4rem;
-      text-decoration: none; cursor: pointer;
-      border: 1px solid; background: transparent;
-      display: inline-flex; align-items: center; gap: .45rem;
-      transition: all .15s;
+      font-weight: 600;
+      padding: 0.875rem 2rem;
+      border: 2px solid var(--primary);
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s ease;
     }
-    .btn svg { width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
-    .btn-p { border-color: var(--green); color: var(--green); }
-    .btn-p:hover { background: var(--green); color: #000; }
-    .btn-s { border-color: var(--border2); color: var(--gray); }
-    .btn-s:hover { border-color: var(--gray); color: var(--white); }
+    .btn:hover {
+      background: var(--primary-d);
+      border-color: var(--primary-d);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+    }
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
 
-    /* ── STATS ── */
     .stats {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: var(--bg1);
-      display: flex; overflow-x: auto;
+      display: flex;
+      justify-content: center;
+      padding: 3rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .stat { flex:1;min-width:130px;padding:1.2rem 2rem;border-right:1px solid var(--border); }
+    .stat {
+      text-align: center;
+      padding: 2rem 3rem;
+      border-right: 1px solid var(--border);
+      flex: 1;
+    }
     .stat:last-child { border-right: none; }
-    .stat-v { font-size:1.4rem;font-weight:600;color:var(--green);font-family:var(--mono);line-height:1;margin-bottom:.3rem; }
-    .stat-l { font-size:.62rem;color:var(--gray);font-family:var(--ui);letter-spacing:.06em; }
+    .stat-v {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .stat-l {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-    /* ── TERMINAL ── */
-    .term-wrap {
-      max-width: 860px;
-      margin: 3.5rem auto;
+    .terminal {
+      max-width: 1000px;
+      margin: 4rem auto;
       padding: 0 2rem;
-      animation: up .6s .12s ease both;
     }
-    .terminal { background: var(--bg1); border: 1px solid var(--border); }
+    .term {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
     .term-bar {
-      background: var(--bg2); border-bottom: 1px solid var(--border);
-      padding: .5rem 1rem;
-      display: flex; align-items: center; gap: .4rem;
+      background: var(--bg1);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
-    .td { width:10px;height:10px;border-radius:50%; }
-    .td-r{background:#cc3333;} .td-y{background:#e8b71d;} .td-g{background:#4af626;}
-    .term-title { font-size:.62rem;color:var(--gray);margin:0 auto;letter-spacing:.08em; }
-    .term-body { padding:1.2rem 1.4rem;font-size:.76rem;line-height:2; }
-    .tl { display:flex;gap:.5rem; }
-    .tps { color:var(--green);user-select:none;flex-shrink:0; }
-    .tc  { color:var(--white); }
-    .to  { color:var(--gray); }
-    .tok { color:var(--green); }
-    .tw  { color:var(--amber); }
-    .tcy { color:var(--cyan); }
-    .cur { display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:middle;margin-left:1px;animation:blink 1s step-end infinite; }
+    .term-controls span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .term-controls .close { background: #dc3545; }
+    .term-controls .min { background: #ffc107; }
+    .term-controls .max { background: #28a745; }
+    .term-body {
+      padding: 1.5rem 2rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      background: var(--bg1);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    /* ── FEATURES ── */
-    .features { max-width:1060px;margin:0 auto;padding:0 2rem 4rem; }
-    .sec-head {
-      display:flex;align-items:center;gap:.8rem;
-      font-size:.62rem;color:var(--gray);letter-spacing:.22em;text-transform:uppercase;
-      margin-bottom:1.8rem;
+    .features {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
     }
-    .sec-head::after { content:'';flex:1;height:1px;background:var(--border); }
     .grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-      gap:1px; background:var(--border);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1px;
+      background: var(--border);
     }
-    .card { background:var(--bg1);padding:1.6rem;position:relative;transition:background .15s; }
-    .card:hover { background:var(--bg2); }
+    .card {
+      background: var(--bg);
+      padding: 2rem;
+      border: 1px solid var(--border);
+    }
+    .card:hover {
+      background: var(--bg1);
+      border-color: var(--primary);
+    }
     .card-icon {
-      width:34px;height:34px;margin-bottom:.9rem;
-      display:flex;align-items:center;justify-content:center;
-      background:var(--bg3);border:1px solid var(--border2);
-      color:var(--green);flex-shrink:0;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: 4px;
     }
-    .card-icon svg { width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round; }
-    .card h3 { font-family:var(--ui);font-size:.86rem;font-weight:600;color:var(--white);margin-bottom:.4rem; }
-    .card p  { font-family:var(--ui);font-size:.74rem;color:var(--gray);line-height:1.7; }
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
     .badge {
-      position:absolute;top:1rem;right:1rem;
-      font-size:.52rem;font-family:var(--mono);letter-spacing:.1em;
-      color:var(--cyan);background:var(--bg3);border:1px solid var(--dgray);
-      padding:.12rem .4rem;
+      font-size: 0.7rem;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      float: right;
     }
 
-    /* ── WARNING ── */
-    .warn-wrap { max-width:860px;margin:0 auto 3.5rem;padding:0 2rem; }
     .warn-box {
-      background:var(--bg1);border:1px solid var(--amber);border-left:3px solid var(--amber);
-      padding:1rem 1.2rem;display:flex;gap:.8rem;align-items:flex-start;
-      font-family:var(--ui);font-size:.76rem;line-height:1.7;
+      max-width: 860px;
+      margin: 0 auto 3.5rem;
+      padding: 1.2rem;
+      background: var(--bg1);
+      border: 1px solid #ffc107;
+      border-left: 4px solid #ffc107;
+      font-size: 0.85rem;
     }
-    .wi { width:15px;height:15px;flex-shrink:0;margin-top:2px;stroke:var(--amber);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round; }
-    .warn-box b { color:var(--amber); }
-    .warn-box span { color:var(--gray); }
-    .warn-box code { font-family:var(--mono);font-size:.7rem;color:var(--white);background:var(--bg3);padding:.1rem .35rem; }
 
-    /* ── INSTALL ── */
-    .inst-wrap { max-width:860px;margin:0 auto 5rem;padding:0 2rem; }
-    .inst-box { background:var(--bg1);border:1px solid var(--border); }
+    .inst-box {
+      max-width: 860px;
+      margin: 0 auto 5rem;
+      border: 1px solid var(--border);
+      background: var(--bg1);
+    }
     .inst-head {
-      border-bottom:1px solid var(--border);padding:.75rem 1.2rem;
-      font-size:.62rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;
-      display:flex;align-items:center;gap:.5rem;
+      padding: 0.75rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
     }
-    .inst-head svg { width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round; }
-    .cblock { display:flex;align-items:center;padding:.7rem 1.2rem;border-bottom:1px solid var(--border);gap:.6rem;font-size:.76rem; }
-    .cblock:last-of-type { border-bottom:none; }
-    .cps  { color:var(--green);flex-shrink:0; }
-    .ccmd { color:var(--white);flex:1; }
-    .ccmd .kw  { color:var(--cyan); }
-    .ccmd .arg { color:var(--amber); }
+    .cblock {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+    }
     .cbtn {
-      font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;
-      background:transparent;border:1px solid var(--border2);color:var(--gray);
-      padding:.2rem .5rem;cursor:pointer;transition:all .15s;flex-shrink:0;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
     }
-    .cbtn:hover { border-color:var(--green);color:var(--green); }
-    .inst-note {
-      padding:.75rem 1.2rem;font-family:var(--ui);font-size:.7rem;
-      color:var(--dgray);border-top:1px solid var(--border);background:var(--bg);
+    .cbtn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
-    /* ── FOOTER ── */
     footer {
-      border-top:1px solid var(--border);background:var(--bg1);
-      padding:1.2rem 2rem;
-      display:flex;align-items:center;justify-content:space-between;
-      flex-wrap:wrap;gap:.8rem;
-      font-size:.62rem;color:var(--dgray);font-family:var(--mono);
+      border-top: 1px solid var(--border);
+      background: var(--bg1);
+      padding: 1.2rem 2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-    footer a { color:var(--dgray);text-decoration:none; }
-    footer a:hover { color:var(--green); }
-    .flinks { display:flex;gap:1.4rem; }
-
-    @media(max-width:600px){
-      header{padding:0 1rem;}
-      .nav .pill,.nav a:not(:last-child){display:none;}
-      .hero,.term-wrap,.features,.warn-wrap,.inst-wrap{padding-left:1.2rem;padding-right:1.2rem;}
-      .hero{padding-top:3rem;}
-      .stats{flex-direction:column;}
-      .stat{border-right:none;border-bottom:1px solid var(--border);}
+    @media(max-width:600px) {
+      header, .hero, .stats, .term-wrap, .features, .warn-wrap, .inst-wrap { padding-left: 1rem; padding-right: 1rem; }
+      .stats { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo"><span class="logo-pre">~/</span>linsecure</div>
+  <a href="#" class="logo">$ ./linsecure.sh</a>
   <nav class="nav">
-    <a href="#features">features</a>
-    <a href="#install">install</a>
-    <a href="#">github</a>
-    <div class="pill"><div class="dot"></div>v1.0.0 stable</div>
+    <a href="#features">Features</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/GrangeDevGroup/linsecure" target="_blank">GitHub</a>
+    <div class="badge">v1.0.0 • Stable</div>
   </nav>
 </header>
 
 <main>
-
-  <!-- HERO -->
   <section class="hero">
-    <div class="prompt-line"><span class="ps">root@localhost:~#</span> ./linsecure.sh --help</div>
-    <h1><span class="dim">//</span> Harden your<br><span class="hl">Linux machine.</span></h1>
-    <p>A single bash script that applies kernel-level hardening, kills hardware tracking, routes traffic through Tor, and installs a full open-source privacy stack — no GUI required.</p>
-    <div class="btn-row">
-      <a href="#install" class="btn btn-p">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        get started
-      </a>
-      <a href="#features" class="btn btn-s">view features</a>
+    <h1>Control your <span class="highlight">Linux machine.</span></h1>
+    <p>A comprehensive privacy and security toolkit that applies privacy controls, and a security suite — designed for Linux environments.</p>
+    <div>
+      <a href="#install" class="btn">Get Started</a>
+      <a href="#features" class="btn btn-secondary">View Features</a>
     </div>
   </section>
 
-  <!-- STATS -->
   <div class="stats">
-    <div class="stat"><div class="stat-v">22</div><div class="stat-l">commands</div></div>
-    <div class="stat"><div class="stat-v">0</div><div class="stat-l">GUI required</div></div>
-    <div class="stat"><div class="stat-v">1</div><div class="stat-l">script file</div></div>
-    <div class="stat"><div class="stat-v">deb</div><div class="stat-l">compatible</div></div>
+    <div class="stat"><div class="stat-v">22</div><div class="stat-l">Commands</div></div>
+    <div class="stat"><div class="stat-v">1</div><div class="stat-l">Script File</div></div>
+    <div class="stat"><div class="stat-v">Debian Ubuntu based Distro</div><div class="stat-l">Compatible</div></div>
   </div>
 
-  <!-- TERMINAL -->
-  <div class="term-wrap">
-    <div class="terminal">
+  <div class="terminal">
+    <div class="term">
       <div class="term-bar">
-        <div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div>
-        <span class="term-title">bash — linsecure.sh — 80×24</span>
+        <div class="term-controls">
+          <span class="close"></span>
+          <span class="min"></span>
+          <span class="max"></span>
+        </div>
+        <span style="margin-left:auto;font-size:0.8rem;color:var(--text-muted)">linsecure.sh</span>
       </div>
       <div class="term-body">
-        <div class="tl"><span class="tps">root@host:~#</span><span class="tc"> sudo ./linsecure.sh</span></div>
-        <div class="tl"><span class="to">==============================================</span></div>
-        <div class="tl"><span class="to">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LINSECURE PRIVACY TOOLKIT</span></div>
-        <div class="tl"><span class="to">==============================================</span></div>
-        <div class="tl"><span class="to">&nbsp;1) System hardening &amp; security tools</span></div>
-        <div class="tl"><span class="to">&nbsp;2) Paranoid firewall mode</span></div>
-        <div class="tl"><span class="to">&nbsp;4) Disable camera</span></div>
-        <div class="tl"><span class="to">&nbsp;6) Disable microphone</span></div>
-        <div class="tl"><span class="to">17) Enable Tor routing (safe mode)</span></div>
-        <div class="tl"><span class="to">99) Restore all changes</span></div>
-        <div class="tl"><span class="to">==============================================</span></div>
-        <div class="tl"><span class="tcy">Choose an option:</span><span class="tc"> 1</span></div>
-        <div class="tl"><span class="tok">[*] Updating system packages...</span></div>
-        <div class="tl"><span class="tok">[*] Installing ufw fail2ban apparmor clamav rkhunter...</span></div>
-        <div class="tl"><span class="tok">[*] Applying kernel sysctl hardening...</span></div>
-        <div class="tl"><span class="tok">[✓] System hardening applied and security tools installed.</span></div>
-        <div class="tl"><span class="tw">Press Enter to continue...</span></div>
-        <div class="tl"><span class="tps">root@host:~#</span><span class="cur"></span></div>
+        <div>root@server:~$ ./linsecure.sh</div>
+        <div>==============================================</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LINSECURE PRIVACY TOOLKIT</div>
+        <div>==============================================</div>
+        <div>&nbsp;1) System hardening &amp; install security tools</div>
+        <div>&nbsp;2) Paranoid firewall mode</div>
+        <div>&nbsp;3) Restore normal firewall</div>
+        <div>&nbsp;4) Disable camera</div>
+        <div>&nbsp;5) Enable camera</div>
+        <div>&nbsp;6) Disable microphone</div>
+        <div>&nbsp;7) Enable microphone</div>
+        <div>&nbsp;8) Disable audio hardware</div>
+        <div>&nbsp;9) Enable audio hardware</div>
+        <div>&nbsp;10) Disable Bluetooth</div>
+        <div>&nbsp;11) Enable Bluetooth</div>
+        <div>&nbsp;12) Disable Wi-Fi hardware</div>
+        <div>&nbsp;13) Enable Wi-Fi hardware</div>
+        <div>&nbsp;14) Disable IPv6</div>
+        <div>&nbsp;15) Enable IPv6</div>
+        <div>&nbsp;16) Install privacy tools</div>
+        <div>&nbsp;17) Enable Tor routing (safe mode)</div>
+        <div>&nbsp;18) Disable Tor routing</div>
+        <div>&nbsp;19) Clean temp files</div>
+        <div>&nbsp;20) Clear RAM cache</div>
+        <div>&nbsp;21) Disable location services</div>
+        <div>&nbsp;22) Enable location services</div>
+        <div>&nbsp;99) Restore all changes</div>
+        <div>&nbsp;0) Exit</div>
+        <div>==============================================</div>
+        <div>root@server:~$ <span style="background:var(--primary);width:8px;height:16px;display:inline-block;vertical-align:middle"></span></div>
       </div>
     </div>
   </div>
 
-  <!-- FEATURES -->
   <section class="features" id="features">
-    <div class="sec-head">// capabilities</div>
+    <h2 style="font-size:1.1rem;margin-bottom:1.5rem">Capabilities</h2>
     <div class="grid">
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3>System Hardening</h3>
-        <p>Kernel sysctl tweaks, UFW firewall, fail2ban, AppArmor, ClamAV, and rkhunter — all configured in one pass.</p>
-        <span class="badge">CORE</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        </div>
-        <h3>Paranoid Firewall</h3>
-        <p>Full deny-all mode. Outgoing locked to HTTPS/HTTP only. One command to activate, one to restore defaults.</p>
-        <span class="badge">FIREWALL</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M1 1l22 22"/><path d="M21 21H3a2 2 0 01-2-2V8a2 2 0 012-2h3m3-3h6l2 3h2a2 2 0 012 2v9.34"/><circle cx="12" cy="13" r="3"/></svg>
-        </div>
-        <h3>Hardware Kill Switches</h3>
-        <p>Blacklist camera, mic, audio, Bluetooth, and Wi-Fi at the kernel module level — persistent across reboots.</p>
-        <span class="badge">HARDWARE</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        </div>
-        <h3>Tor Routing</h3>
-        <p>Transparent proxy mode routes DNS and TCP through the Tor network. Tor Browser installed via Flatpak.</p>
-        <span class="badge">ANONYMITY</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        </div>
-        <h3>Privacy Stack</h3>
-        <p>Brave, Tor Browser, OnionShare, MAT2 metadata stripper, and DNSCrypt proxy — deployed in a single run.</p>
-        <span class="badge">SOFTWARE</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
-        </div>
-        <h3>Full Restore Mode</h3>
-        <p>Option 99 reverses every change — sysctl configs, module blacklists, firewall rules — back to clean defaults.</p>
-        <span class="badge">RECOVERY</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><line x1="1" y1="6" x2="23" y2="6"/><line x1="1" y1="12" x2="23" y2="12"/><line x1="1" y1="18" x2="23" y2="18"/><circle cx="19" cy="6" r="3" fill="var(--bg3)"/></svg>
-        </div>
-        <h3>IPv6 Control</h3>
-        <p>Disable IPv6 system-wide via sysctl to close a common leak vector on networks that force IPv6 assignment.</p>
-        <span class="badge">NETWORK</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
-        </div>
-        <h3>Location Services</h3>
-        <p>Stop and disable the GeoClue daemon to cut off location telemetry from apps and system services.</p>
-        <span class="badge">PRIVACY</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
-        </div>
-        <h3>Temp &amp; RAM Cleaning</h3>
-        <p>Wipe /tmp, /var/tmp, and drop filesystem caches — no residual artifacts left in memory or on disk.</p>
-        <span class="badge">HYGIENE</span>
-      </div>
-
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>System Hardening</h3><p>Kernel sysctl, UFW, fail2ban, AppArmor, ClamAV, rkhunter.</p><span class="badge">CORE</span></div>
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Paranoid Firewall</h3><p>Deny-all mode. Outgoing locked to HTTPS/HTTP.</p><span class="badge">FIREWALL</span></div>
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><path d="M1 1l22 22"/><path d="M21 21H3a2 2 0 01-2-2V8a2 2 0 012-2h3m3-3h6l2 3h2a2 2 0 012 2v9.34"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Hardware Kill Switches</h3><p>Blacklist camera, mic, BT, Wi-Fi at kernel level.</p><span class="badge">HARDWARE</span></div>
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Tor Routing</h3><p>Transparent proxy + Tor Browser.</p><span class="badge">ANONYMITY</span></div>
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></div><h3>Privacy Stack</h3><p>Brave, Tor, OnionShare, MAT2, DNSCrypt.</p><span class="badge">SOFTWARE</span></div>
+      <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg></div><h3>Full Restore</h3><p>Revert all changes with one command.</p><span class="badge">RECOVERY</span></div>
     </div>
   </section>
 
-  <!-- WARNING -->
-  <div class="warn-wrap">
-    <div class="warn-box">
-      <svg class="wi" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <div><b>REQUIRES ROOT.</b> <span>Run with <code>sudo</code>. This script modifies kernel parameters, firewall rules, and system services. Review the source before running. Tor routing provides obfuscation — it does not guarantee complete anonymity. Use responsibly and within applicable laws.</span></div>
-    </div>
+  <div class="warn-box">
+    <b>REQUIRES ROOT.</b> Run with <code>sudo</code>. Review source before executing. Use responsibly.
   </div>
 
-  <!-- INSTALL -->
-  <section class="inst-wrap" id="install">
-    <div class="inst-box">
-      <div class="inst-head">
-        <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        quick install
-      </div>
-      <div class="cblock">
-        <span class="cps">$</span>
-        <span class="ccmd"><span class="kw">git</span> clone https://github.com/<span class="arg">GrangeDevGroup</span>/linsecure.git</span>
-        <button class="cbtn" onclick="cp(this,'git clone https://github.com/GrangeDevGroup/linsecure.git')">COPY</button>
-      </div>
-      <div class="cblock">
-        <span class="cps">$</span>
-        <span class="ccmd"><span class="kw">cd</span> linsecure &amp;&amp; <span class="kw">chmod</span> +x linsecure.sh</span>
-        <button class="cbtn" onclick="cp(this,'cd linsecure && chmod +x linsecure.sh')">COPY</button>
-      </div>
-      <div class="cblock">
-        <span class="cps">$</span>
-        <span class="ccmd"><span class="kw">sudo</span> ./linsecure.sh</span>
-        <button class="cbtn" onclick="cp(this,'sudo ./linsecure.sh')">COPY</button>
-      </div>
-      <div class="inst-note">Tested on Ubuntu 22.04+ and Debian-based distros. Requires apt package manager.</div>
-    </div>
+  <section class="inst-box" id="install">
+    <div class="inst-head">Quick Install</div>
+    <div class="cblock"><span>$</span> git clone https://github.com/GrangeDevGroup/linsecure.git <button class="cbtn" onclick="navigator.clipboard.writeText('git clone https://github.com/GrangeDevGroup/linsecure.git')">COPY</button></div>
+    <div class="cblock"><span>$</span> cd linsecure && chmod +x linsecure.sh <button class="cbtn" onclick="navigator.clipboard.writeText('cd linsecure && chmod +x linsecure.sh')">COPY</button></div>
+    <div class="cblock"><span>$</span> sudo ./linsecure.sh <button class="cbtn" onclick="navigator.clipboard.writeText('sudo ./linsecure.sh')">COPY</button></div>
   </section>
-
 </main>
 
 <footer>
-  <span>LinSecure &copy; 2025 — open source</span>
-  <div class="flinks">
-    <a href="#">github</a>
-    <a href="#">docs</a>
-    <a href="#">issues</a>
-    <a href="#">license</a>
+  <span>LinSecure © 2025 — Open Source</span>
+  <div>
+    <a href="https://github.com/GrangeDevGroup/linsecure" target="_blank">GitHub</a> •
+    <a href="#">Docs</a> • 
+    <a href="#">Issues</a>
   </div>
 </footer>
-
-<script>
-  function cp(btn, text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const o = btn.textContent;
-      btn.textContent = 'OK';
-      btn.style.color = 'var(--green)';
-      btn.style.borderColor = 'var(--green)';
-      setTimeout(() => { btn.textContent = o; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
-    });
-  }
-</script>
 
 </body>
 </html>
